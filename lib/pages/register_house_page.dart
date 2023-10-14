@@ -1,7 +1,15 @@
+import 'dart:convert';
 import 'dart:io';
-import 'package:brasil_fields/brasil_fields.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:imovel_direto/custom/custom_title_text_form_field.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:rent_jlle/custom/custom_button.dart';
+import 'package:http/http.dart' as http;
+import 'package:imovel_direto/custom/custom_button.dart';
+import 'package:imovel_direto/utils/colors/paleta_cores.dart';
+
+import '../custom/custom_int_input_form.dart';
+import '../models/casa.dart';
 
 class RegistraCasaPage extends StatefulWidget {
   const RegistraCasaPage({super.key});
@@ -11,33 +19,236 @@ class RegistraCasaPage extends StatefulWidget {
 }
 
 class _RegistraCasaPageState extends State<RegistraCasaPage> {
-  final _formKey = GlobalKey<FormState>();
-  final List<File> _listaImagens = [];
-  final List<DropdownMenuItem<String>> _menuItems = [];
+  final _formHouseKey = GlobalKey<FormState>();
+  final List<File?> _listaImagens = [];
+  final List<DropdownMenuItem<String>> _listaTipoCasas = [];
+  final List<DropdownMenuItem<String>> _optCriancas = [];
+  final List<DropdownMenuItem<String>> _optPet = [];
 
-  final _tituloController = TextEditingController();
-  final _descController = TextEditingController();
-  final _precoController = TextEditingController();
+  int currentStep = 0;
+  String? selectedValue;
+  String? selectedValuePet;
+  String? selectedValueCrianca;
+
+  final _descTituloController = TextEditingController();
+  final _nrComodoController = TextEditingController();
+  final _nrQuartoController = TextEditingController();
+  final _nrBanheiroController = TextEditingController();
+  final _espacoGaragemController = TextEditingController();
+  final _priceController = TextEditingController();
+  final _descDetailsController = TextEditingController();
+
+  final ImagePicker picker = ImagePicker();
+
+  //we can upload image from camera or from gallery based on parameter
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+
+    File file = File(img!.path);
+
+    setState(() {
+      _listaImagens.add(file);
+    });
+  }
+
+  Future<void> createRent(Imovel imovel) async {
+    String url = "http://192.168.100.123:4000";
+
+    try {
+      http.Response response = await http.post(
+        Uri.parse("$url/api/imovel/novo"),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "titulo": imovel.titulo,
+          "tipoimovel": imovel.tipoImovel,
+          "nrcomodos": imovel.nrComodo,
+          "nrquarto": imovel.nrQuarto,
+          "nrbanheiro": imovel.nrBanheiro,
+          "dtcadastro": imovel.dtCadastro,
+          "idpermite_pet": imovel.permitePet,
+          "idpermite_crianca": imovel.permiteCrianca,
+          "espaco_garagem": imovel.espacoGaragem,
+          "preco": imovel.preco,
+          "descricao": imovel.descricao,
+          "idusuario": imovel.idUsuario
+        }),
+      );
+    } on HttpException catch (ex) {
+      throw Exception(ex.message.toString());
+    }
+  }
 
   @override
   void initState() {
-    _carregaTipoImovel();
     super.initState();
+    getTipoCasas();
+    getOptCriancas();
+    getOptPet();
   }
 
-  void _carregaTipoImovel() {
-    _menuItems.add(const DropdownMenuItem(
-      value: 'K',
-      child: Text("Kitnet"),
-    ));
-    _menuItems.add(const DropdownMenuItem(
-      value: 'A',
-      child: Text("Apto"),
-    ));
-    _menuItems.add(const DropdownMenuItem(
-      value: 'C',
-      child: Text("Casa"),
-    ));
+  getOptCriancas() {
+    _optCriancas.add(const DropdownMenuItem(value: "S", child: Text("Sim")));
+    _optCriancas.add(const DropdownMenuItem(value: "N", child: Text("Não")));
+  }
+
+  List<Step> getSteps() => [
+        Step(
+            state: currentStep > 0 ? StepState.complete : StepState.indexed,
+            isActive: currentStep >= 0,
+            title: Text("Dados"),
+            content: Form(
+              key: _formHouseKey,
+              child: Column(
+                children: [
+                  CustomTitleTextFormField(controller: _descTituloController),
+                  const SizedBox(height: 8.0),
+                  DropdownButtonFormField<String>(
+                    hint: const Text("Selecione um tipo"),
+                    value: selectedValue,
+                    items: _listaTipoCasas,
+                    onChanged: (String? novoValor) {
+                      setState(() {
+                        selectedValue = novoValor!;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(children: [
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CustomIntInputForm(
+                        controller: _nrComodoController,
+                        nome: "Comodo",
+                      ),
+                    )),
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: CustomIntInputForm(
+                        controller: _nrQuartoController,
+                        nome: "Quarto",
+                      ),
+                    ))
+                  ]),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: CustomIntInputForm(
+                            controller: _nrBanheiroController,
+                            nome: "Banheiro"),
+                      )),
+                      Expanded(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: CustomIntInputForm(
+                          controller: _espacoGaragemController,
+                          nome: "Garagem",
+                        ),
+                      ))
+                    ],
+                  ),
+                  const SizedBox(height: 8.0),
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Padding(
+                              padding: const EdgeInsets.all(8),
+                              child: DropdownButtonFormField<String>(
+                                icon: const Icon(
+                                  Icons.child_care_outlined,
+                                  color: PaletaCores.bgPurple,
+                                ),
+                                hint: const Text("Crianças"),
+                                value: selectedValueCrianca,
+                                items: _optCriancas,
+                                onChanged: (String? novoValorCrianca) {
+                                  setState(() {
+                                    selectedValueCrianca = novoValorCrianca!;
+                                  });
+                                },
+                              ))),
+                      Expanded(
+                        child: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: DropdownButtonFormField<String>(
+                              icon: const Icon(Icons.pets_outlined,
+                                  color: PaletaCores.bgPurple),
+                              hint: const Text("Pet"),
+                              value: selectedValuePet,
+                              items: _optPet,
+                              onChanged: (String? valorPet) {
+                                setState(() {
+                                  selectedValuePet = valorPet!;
+                                });
+                              },
+                            )),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )),
+        Step(
+            state: currentStep > 1 ? StepState.complete : StepState.indexed,
+            isActive: currentStep >= 1,
+            title: const Text("Detalhes"),
+            content: Column(
+              children: [
+                TextFormField(
+                  controller: _priceController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Preço",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.multiline,
+                  maxLines: 6,
+                  controller: _descDetailsController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Descrição",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                )
+              ],
+            )),
+        Step(
+            state: currentStep > 2 ? StepState.complete : StepState.indexed,
+            isActive: currentStep >= 2,
+            title: Text("Visualizar Dados"),
+            content: Text("Vizualização dos dados"))
+      ];
+
+  getOptPet() {
+    _optPet.add(const DropdownMenuItem(value: "S", child: Text("Sim")));
+    _optPet.add(const DropdownMenuItem(value: "N", child: Text("Não")));
+  }
+
+  getTipoCasas() {
+    _listaTipoCasas
+        .add(const DropdownMenuItem(value: "K", child: Text("Kitnet")));
+    _listaTipoCasas
+        .add(const DropdownMenuItem(value: "C", child: Text("Casa")));
+    _listaTipoCasas
+        .add(const DropdownMenuItem(value: "A", child: Text("Apartamento")));
   }
 
   @override
@@ -47,137 +258,84 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         title: const Text("Nova casa"),
         backgroundColor: Colors.purple,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.all(16),
-          child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  FormField<List>(
-                      initialValue: _listaImagens,
-                      validator: (imagens) {
-                        return imagens!.isEmpty
-                            ? "Necessário selecionar uma imagem"
-                            : null;
-                      },
-                      builder: (state) {
-                        if (state.hasError) {
-                          return Text(
-                            "*${state.errorText}",
-                            style: const TextStyle(color: Colors.red),
-                          );
-                        }
-                        return SizedBox(
-                          height: 120,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: _listaImagens.length,
-                              itemBuilder: (context, index) {
-                                if (index == _listaImagens.length) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 0),
-                                    child: GestureDetector(
-                                      onTap: () {},
-                                      child: const CircleAvatar(
-                                        radius: 12.0,
-                                        backgroundColor:
-                                            Colors.deepPurpleAccent,
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.add_a_photo_rounded,
-                                              color: Colors.white,
-                                              size: 30,
-                                            ),
-                                            Text("Adicionar")
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                }
+      body: Stepper(
+        type: StepperType.horizontal,
+        steps: getSteps(),
+        currentStep: currentStep,
+        onStepCancel: () {
+          currentStep == 0 ? null : setState(() => currentStep -= 1);
+        },
+        onStepContinue: () {
+          final isLastStep = currentStep == getSteps().length - 1;
 
-                                if (index > 0) {}
-                                return const SizedBox();
-                              }),
-                        );
-                      }),
-                  TextFormField(
-                    controller: _tituloController,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
+          if (isLastStep) {
+            var titulo = _descTituloController.text;
+            var qtdComodo = _nrComodoController.text;
+            var qtdQuarto = _nrQuartoController.text;
+            var qtdBanheiro = _nrBanheiroController.text;
+            var espacoGaragem = _espacoGaragemController.text;
+            var preco = _priceController.text;
+            var descricao = _descDetailsController.text;
+            Imovel imovel = Imovel(
+                titulo: titulo,
+                tipoImovel: selectedValue,
+                nrComodo: qtdComodo,
+                nrQuarto: qtdQuarto,
+                nrBanheiro: qtdBanheiro,
+                espacoGaragem: espacoGaragem,
+                dtCadastro: DateFormat('yyyy-MM-dd').format((DateTime.now())),
+                permitePet: selectedValuePet,
+                permiteCrianca: selectedValueCrianca,
+                preco: double.parse(preco),
+                descricao: descricao,
+                idUsuario: '1');
+            createRent(imovel);
+          } else {
+            setState(() {
+              currentStep += 1;
+            });
+          }
+        },
+        controlsBuilder: (context, ControlsDetails details) {
+          final isLastStep = currentStep == getSteps().length - 1;
+          return Container(
+            margin: const EdgeInsets.only(top: 8),
+            child: Row(
+              children: [
+                Expanded(
+                    child: ElevatedButton(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.purpleAccent),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              side: const BorderSide(color: Colors.purple)))),
+                  onPressed: details.onStepContinue,
+                  child: Text(isLastStep ? "Finalizar" : "Próximo"),
+                )),
+                const SizedBox(width: 16),
+                currentStep != 0
+                    ? Expanded(
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                  Color.fromARGB(255, 241, 239, 241)),
+                              shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(6),
+                                      side: const BorderSide(
+                                          color: Colors.purple)))),
+                          onPressed: details.onStepCancel,
+                          child: const Text("Voltar"),
                         ),
-                        labelText: "Digite um título",
-                        floatingLabelStyle: TextStyle(
-                          fontSize: 12.0,
-                          fontStyle: FontStyle.normal,
-                        )),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "O campo é obrigatório";
-                      }
-                      return "Tudo certo!";
-                    },
-                  ),
-                  const SizedBox(height: 8.0),
-                  DropdownButtonFormField(
-                      items: _menuItems, onChanged: (valor) {}),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    controller: _descController,
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 5,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        ),
-                        labelText: "Descrição",
-                        floatingLabelStyle: TextStyle(
-                          fontSize: 12.0,
-                          fontStyle: FontStyle.normal,
-                        )),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "O campo é obrigatório";
-                      }
-                      return "Tudo certo!";
-                    },
-                  ),
-                  const SizedBox(height: 8.0),
-                  TextFormField(
-                    inputFormatters: [CentavosInputFormatter()],
-                    controller: _precoController,
-                    keyboardType: TextInputType.number,
-                    decoration: const InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6.0)),
-                        ),
-                        labelText: "Preço",
-                        floatingLabelStyle: TextStyle(
-                          fontSize: 12.0,
-                          fontStyle: FontStyle.normal,
-                        )),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return "O campo é obrigatório";
-                      }
-                      return "Tudo certo!";
-                    },
-                  ),
-                  const SizedBox(height: 8.0),
-                  CustomButton(
-                      buttonText: "Cadastrar",
-                      colorText: Colors.white,
-                      onPressed: () {}),
-                ],
-              )),
-        ),
+                      )
+                    : Container()
+              ],
+            ),
+          );
+        },
       ),
     );
   }

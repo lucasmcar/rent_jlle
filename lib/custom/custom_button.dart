@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 class CustomButton extends StatelessWidget {
   final String buttonText;
   final Color colorText;
+  final Color bgColor;
   final VoidCallback onPressed;
 
   const CustomButton(
       {required this.buttonText,
       required this.colorText,
       required this.onPressed,
+      required this.bgColor,
       super.key});
 
   @override
@@ -16,7 +18,7 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+          foregroundColor: MaterialStateProperty.all<Color>(bgColor),
           backgroundColor:
               MaterialStateProperty.all<Color>(Colors.purpleAccent),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -24,7 +26,7 @@ class CustomButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(6),
                   side: const BorderSide(color: Colors.purple)))),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Text(
           buttonText,
           style: TextStyle(color: colorText, fontSize: 16),

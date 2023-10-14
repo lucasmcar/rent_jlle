@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rent_jlle/pages/detalhes_page.dart';
-import 'package:rent_jlle/pages/lista_aluguel.dart';
-import 'package:rent_jlle/pages/register_house_page.dart';
+import 'package:imovel_direto/pages/detalhes_page.dart';
+import 'package:imovel_direto/pages/lista_aluguel.dart';
+import 'package:imovel_direto/pages/register_house_page.dart';
 
 import '../pages/register_user_page.dart';
 
 class RoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    //final args = settings.arguments;
+    final args = settings.arguments;
 
     switch (settings.name) {
       case '/':

@@ -1,4 +1,4 @@
-package com.example.rent_jlle
+package com.devpoa.imovel_direto
 
 import io.flutter.embedding.android.FlutterActivity
 

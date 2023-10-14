@@ -14,14 +14,14 @@ class _FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Alugueis"),
+          title: const Text("Alugueis"),
           backgroundColor: Colors.purpleAccent,
           actions: [
             IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/createRent');
                 },
-                icon: Icon(Icons.add_circle))
+                icon: const Icon(Icons.add_circle))
           ],
         ),
         body: const ListaAluguel());

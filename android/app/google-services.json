@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1095259309722",
+    "project_id": "imovel-direto",
+    "storage_bucket": "imovel-direto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1095259309722:android:185c9b90e2f083fbacc123",
+        "android_client_info": {
+          "package_name": "com.devpoa.imovel_direto"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMoasY7IwUStXu5PgTWc4F8L1f-QOAim4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
