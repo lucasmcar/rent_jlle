@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:image_picker/image_picker.dart';
 import 'package:imovel_direto/custom/custom_title_text_form_field.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:imovel_direto/custom/custom_button.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 
 import '../custom/custom_int_input_form.dart';
-import '../models/casa.dart';
+import '../models/imovel.dart';
 
 class RegistraCasaPage extends StatefulWidget {
   const RegistraCasaPage({super.key});
@@ -37,6 +39,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
   final _espacoGaragemController = TextEditingController();
   final _priceController = TextEditingController();
   final _descDetailsController = TextEditingController();
+  //var status = await Permission.storage.status;
 
   final ImagePicker picker = ImagePicker();
 
@@ -72,6 +75,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
           "espaco_garagem": imovel.espacoGaragem,
           "preco": imovel.preco,
           "descricao": imovel.descricao,
+          "referencia": imovel.referencia,
           "idusuario": imovel.idUsuario
         }),
       );
@@ -97,7 +101,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         Step(
             state: currentStep > 0 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 0,
-            title: Text("Dados"),
+            title: const Text("Dados"),
             content: Form(
               key: _formHouseKey,
               child: Column(
@@ -233,8 +237,8 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         Step(
             state: currentStep > 2 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 2,
-            title: Text("Visualizar Dados"),
-            content: Text("Vizualização dos dados"))
+            title: const Text("Visualizar Dados"),
+            content: const Text("Vizualização dos dados"))
       ];
 
   getOptPet() {
@@ -276,6 +280,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
             var espacoGaragem = _espacoGaragemController.text;
             var preco = _priceController.text;
             var descricao = _descDetailsController.text;
+            var referencia = _setRefHash();
             Imovel imovel = Imovel(
                 titulo: titulo,
                 tipoImovel: selectedValue,
@@ -288,6 +293,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                 permiteCrianca: selectedValueCrianca,
                 preco: double.parse(preco),
                 descricao: descricao,
+                referencia: referencia.toString(),
                 idUsuario: '1');
             createRent(imovel);
           } else {
@@ -320,7 +326,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  Color.fromARGB(255, 241, 239, 241)),
+                                  const Color.fromARGB(255, 241, 239, 241)),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -338,5 +344,9 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         },
       ),
     );
+  }
+
+  int _setRefHash() {
+    return Random().nextInt(999999);
   }
 }

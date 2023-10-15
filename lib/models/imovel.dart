@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 
 class Imovel {
+  int? idImovel;
   String? titulo;
   String? tipoImovel;
   String? nrComodo;
@@ -13,8 +14,10 @@ class Imovel {
   String? idUsuario;
   double? preco;
   String? descricao;
+  String? referencia;
 
   Imovel({
+    this.idImovel,
     required this.titulo,
     required this.tipoImovel,
     required this.nrComodo,
@@ -26,11 +29,13 @@ class Imovel {
     required this.permiteCrianca,
     this.preco,
     this.descricao,
+    this.referencia,
     this.idUsuario,
   });
 
   factory Imovel.fromJson(Map<String, dynamic> json) {
     return Imovel(
+        idImovel: json['idimovel'],
         titulo: json['titulo'],
         tipoImovel: json['tipoimovel'],
         nrComodo: json['nrcomodos'],
@@ -42,10 +47,12 @@ class Imovel {
         permiteCrianca: json['idpermite_crianca'],
         preco: json['preco'],
         descricao: json['descricao'],
+        referencia: json['referencia'],
         idUsuario: json['idusuario']);
   }
 
   Map<String, dynamic> toJson() => {
+        'idimovel': idImovel,
         'titulo': titulo,
         'tipoimovel': tipoImovel,
         'nrcomodo': nrComodo,
@@ -57,6 +64,7 @@ class Imovel {
         'idpermite_crianca': permiteCrianca,
         'preco': preco,
         'descricao': descricao,
+        'referencia': referencia,
         'idusuario': idUsuario,
       };
 }

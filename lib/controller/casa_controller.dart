@@ -1,6 +1,6 @@
 import 'package:mobx/mobx.dart';
 
-import '../models/casa.dart';
+import '../models/imovel.dart';
 part 'casa_controller.g.dart';
 
 class CasaController = CasaControllerBase with _$CasaController;
@@ -9,7 +9,8 @@ abstract class CasaControllerBase with Store {
   @observable
   bool loading = false;
   @action
-  Future<Imovel> create(Imovel imovel) {
+  Future<void> createRent(Imovel imovel) {
+
     throw Exception("Not Implemented yet");
   }
 
@@ -19,7 +20,12 @@ abstract class CasaControllerBase with Store {
   }
 
   @action
-  Future<Imovel> getAllSimple() {
+  Future<Imovel> getAllSimpl() {
+    throw Exception("Not Implemented yet");
+  }
+
+  @action
+  Future<Imovel> getByRef(String? ref) {
     throw Exception("Not Implemented yet");
   }
 }

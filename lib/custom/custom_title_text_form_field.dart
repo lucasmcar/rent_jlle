@@ -30,6 +30,7 @@ class CustomTitleTextFormField extends StatelessWidget {
           if (valor!.isEmpty) {
             return "O campo não pode ser vazio";
           }
+          return null;
         });
   }
 }
