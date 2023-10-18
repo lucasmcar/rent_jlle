@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:image_picker/image_picker.dart';
 import 'package:imovel_direto/custom/custom_title_text_form_field.dart';
+import 'package:imovel_direto/pages/lista_aluguel.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,10 @@ import 'package:permission_handler/permission_handler.dart';
 
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 
+import '../controller/endereco_controller.dart';
 import '../custom/custom_int_input_form.dart';
+import '../models/Usuario.dart';
+import '../models/endereco.dart';
 import '../models/imovel.dart';
 
 class RegistraCasaPage extends StatefulWidget {
@@ -26,6 +30,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
   final List<DropdownMenuItem<String>> _listaTipoCasas = [];
   final List<DropdownMenuItem<String>> _optCriancas = [];
   final List<DropdownMenuItem<String>> _optPet = [];
+  final EnderecoController _endController = EnderecoController();
 
   int currentStep = 0;
   String? selectedValue;
@@ -39,6 +44,12 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
   final _espacoGaragemController = TextEditingController();
   final _priceController = TextEditingController();
   final _descDetailsController = TextEditingController();
+  final _cepSearchController = TextEditingController();
+  final _ruaController = TextEditingController();
+  final _numeroCasaController = TextEditingController();
+  final _localidadeController = TextEditingController();
+  final _bairroController = TextEditingController();
+  final _ufController = TextEditingController();
   //var status = await Permission.storage.status;
 
   final ImagePicker picker = ImagePicker();
@@ -101,7 +112,10 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         Step(
             state: currentStep > 0 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 0,
-            title: const Text("Dados"),
+            title: const Text("Dados",
+                style: TextStyle(
+                  fontFamily: "Raleway",
+                )),
             content: Form(
               key: _formHouseKey,
               child: Column(
@@ -168,7 +182,10 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                                   Icons.child_care_outlined,
                                   color: PaletaCores.bgPurple,
                                 ),
-                                hint: const Text("Crianças"),
+                                hint: const Text("Crianças",
+                                    style: TextStyle(
+                                      fontFamily: "Raleway",
+                                    )),
                                 value: selectedValueCrianca,
                                 items: _optCriancas,
                                 onChanged: (String? novoValorCrianca) {
@@ -183,7 +200,10 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                             child: DropdownButtonFormField<String>(
                               icon: const Icon(Icons.pets_outlined,
                                   color: PaletaCores.bgPurple),
-                              hint: const Text("Pet"),
+                              hint: const Text("Pet",
+                                  style: TextStyle(
+                                    fontFamily: "Raleway",
+                                  )),
                               value: selectedValuePet,
                               items: _optPet,
                               onChanged: (String? valorPet) {
@@ -201,7 +221,10 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         Step(
             state: currentStep > 1 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 1,
-            title: const Text("Detalhes"),
+            title: const Text("Detalhes",
+                style: TextStyle(
+                  fontFamily: "Raleway",
+                )),
             content: Column(
               children: [
                 TextFormField(
@@ -213,6 +236,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                       ),
                       labelText: "Preço",
                       floatingLabelStyle: TextStyle(
+                        fontFamily: "Raleway",
                         fontSize: 12.0,
                         fontStyle: FontStyle.normal,
                       )),
@@ -228,16 +252,119 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                       ),
                       labelText: "Descrição",
                       floatingLabelStyle: TextStyle(
+                        fontFamily: "Raleway",
                         fontSize: 12.0,
                         fontStyle: FontStyle.normal,
                       )),
                 )
               ],
             )),
+        /*Step(
+            state: currentStep > 2 ? StepState.complete : StepState.indexed,
+            isActive: currentStep >= 2,
+            title: const Text("Endereço"),
+            content: Column(
+              children: [
+                TextFormField(
+                  controller: _cepSearchController,
+                  keyboardType: TextInputType.text,
+                  onChanged: (value) {},
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Cep",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _ruaController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Rua",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _numeroCasaController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Nº",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _bairroController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Bairro",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _localidadeController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Localidade",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+                const SizedBox(height: 8),
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  controller: _ufController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                      ),
+                      labelText: "Uf",
+                      floatingLabelStyle: TextStyle(
+                        fontSize: 12.0,
+                        fontStyle: FontStyle.normal,
+                      )),
+                ),
+              ],
+            )),*/
+        /*Step(
+            state: currentStep > 3 ? StepState.complete : StepState.indexed,
+            isActive: currentStep >= 3,
+            title: const Text("Adicionar Imagens"),
+            content: const Text("Vazio")),*/
         Step(
             state: currentStep > 2 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 2,
-            title: const Text("Visualizar Dados"),
+            title: const Text(
+              "Visualizar Dados",
+              style: TextStyle(
+                fontFamily: "Raleway",
+              ),
+            ),
             content: const Text("Vizualização dos dados"))
       ];
 
@@ -247,19 +374,36 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
   }
 
   getTipoCasas() {
-    _listaTipoCasas
-        .add(const DropdownMenuItem(value: "K", child: Text("Kitnet")));
-    _listaTipoCasas
-        .add(const DropdownMenuItem(value: "C", child: Text("Casa")));
-    _listaTipoCasas
-        .add(const DropdownMenuItem(value: "A", child: Text("Apartamento")));
+    _listaTipoCasas.add(const DropdownMenuItem(
+        value: "K",
+        child: Text(
+          "Kitnet",
+          style: TextStyle(
+            fontFamily: "Raleway",
+          ),
+        )));
+    _listaTipoCasas.add(const DropdownMenuItem(
+        value: "C",
+        child: Text("Casa",
+            style: TextStyle(
+              fontFamily: "Raleway",
+            ))));
+    _listaTipoCasas.add(const DropdownMenuItem(
+        value: "A",
+        child: Text("Apartamento",
+            style: TextStyle(
+              fontFamily: "Raleway",
+            ))));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nova casa"),
+        title: const Text(
+          "Nova casa",
+          style: TextStyle(fontFamily: "Raleway"),
+        ),
         backgroundColor: Colors.purple,
       ),
       body: Stepper(
@@ -271,7 +415,24 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
         },
         onStepContinue: () {
           final isLastStep = currentStep == getSteps().length - 1;
+          /*if (currentStep == 2) {
+            Usuario u = Usuario(
+              idUsuario: 1,
+              nome: "Teste",
+              nmUsuario: "teste90",
+              senha: "123",
+              email: "teste@teste.com",
+              contato: "4795959595",
+              tipoUsuario: "L",
+            );
+            
+            Endereco endereco = Endereco();
+            var rua = _ruaController;
+            var 
 
+            _endController.registerAddress("http://192.168.100.123:4000",
+                endereco, u.idUsuario as Usuario);
+          }*/
           if (isLastStep) {
             var titulo = _descTituloController.text;
             var qtdComodo = _nrComodoController.text;
@@ -296,6 +457,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                 referencia: referencia.toString(),
                 idUsuario: '1');
             createRent(imovel);
+            Navigator.pushNamed(context, "/list");
           } else {
             setState(() {
               currentStep += 1;
@@ -326,7 +488,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                               backgroundColor: MaterialStateProperty.all<Color>(
-                                  const Color.fromARGB(255, 241, 239, 241)),
+                                  const Color.fromARGB(255, 209, 142, 209)),
                               shape: MaterialStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(

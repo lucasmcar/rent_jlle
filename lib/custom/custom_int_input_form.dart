@@ -38,6 +38,7 @@ class CustomIntInputForm extends StatelessWidget {
             ),
             labelText: (nome == "Garagem") ? "Nº Carros" : "Nº ${nome}s",
             floatingLabelStyle: const TextStyle(
+              fontFamily: "Raleway",
               fontSize: 12.0,
               fontStyle: FontStyle.normal,
             )),

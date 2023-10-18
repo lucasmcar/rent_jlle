@@ -23,6 +23,7 @@ class CustomTitleTextFormField extends StatelessWidget {
             ),
             labelText: "Título",
             floatingLabelStyle: TextStyle(
+              fontFamily: "Raleway",
               fontSize: 12.0,
               fontStyle: FontStyle.normal,
             )),

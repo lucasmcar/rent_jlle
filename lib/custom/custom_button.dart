@@ -20,7 +20,7 @@ class CustomButton extends StatelessWidget {
       style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(bgColor),
           backgroundColor:
-              MaterialStateProperty.all<Color>(Colors.purpleAccent),
+              MaterialStateProperty.all<Color>(bgColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(6),
@@ -29,7 +29,7 @@ class CustomButton extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Text(
           buttonText,
-          style: TextStyle(color: colorText, fontSize: 16),
+          style: TextStyle(color: colorText, fontSize: 18, fontFamily: "Raleway", fontWeight: FontWeight.bold),
         ),
       ),
     );

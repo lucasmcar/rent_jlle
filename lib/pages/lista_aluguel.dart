@@ -86,23 +86,32 @@ class _ListaAluguelState extends State<ListaAluguel> {
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                     hintText: 'Pesquisar Bairro ou referência',
-                    hintStyle: TextStyle(fontFamily: "Raleway",color: Colors.white)),
+                    hintStyle:
+                        TextStyle(fontFamily: "Raleway", color: Colors.white)),
               )
             : Text(
                 "Imóveis",
-                style: TextStyle(fontFamily: "Raleway",letterSpacing: .5),
+                style: TextStyle(fontFamily: "Raleway", letterSpacing: .5),
               ),
         titleSpacing: 10,
         backgroundColor: PaletaCores.bgPurple,
         actions: [
-          IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {
-              setState(() {
-                isSearching = !isSearching;
-              });
-            },
-          )
+          isSearching
+              ? IconButton(
+                  icon: const Icon(Icons.close_outlined),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = !isSearching;
+                    });
+                  })
+              : IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: () {
+                    setState(() {
+                      isSearching = !isSearching;
+                    });
+                  },
+                )
         ],
       ),
       body: Container(
@@ -137,10 +146,12 @@ class _ListaAluguelState extends State<ListaAluguel> {
                       contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
                       title: Text(
                         imovel.titulo!,
-                        style: const TextStyle(fontFamily: "Raleway",fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                            fontFamily: "Raleway", fontWeight: FontWeight.bold),
                       ),
                       subtitle: Text("R\$${imovel.preco}",
-                          style: const TextStyle(fontFamily: "Raleway",
+                          style: const TextStyle(
+                              fontFamily: "Raleway",
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic)),
                       trailing: IconButton(
