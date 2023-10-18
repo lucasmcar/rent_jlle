@@ -52,14 +52,27 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                     colors: [PaletaCores.bgPurpleAcc, PaletaCores.bgPurple]
                   ),
                   borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(40)
+                    bottomLeft: Radius.circular(40),
+                    bottomRight: Radius.circular(40)
                   ),
 
                 ),
                 child: Column(
 
                   children: [
-                    const Spacer( flex: 5,),
+                    const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Text("Cadastrar", style: TextStyle(
+                            fontFamily: "Raleway",
+                            color: PaletaCores.whiteDefault,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold
+                        ),),
+                      ),
+                    ),
+
                     CircleAvatar(
                       radius: 70,
                       child: Row(
@@ -75,19 +88,8 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                         ],
                       ),
                     ),
-                    const Spacer(),
-                    const Align(
-                      alignment: Alignment.bottomRight,
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Text("Cadastrar", style: TextStyle(
-                          fontFamily: "Raleway",
-                          color: PaletaCores.whiteDefault,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold
-                        ),),
-                      ),
-                    )
+
+
                   ],
                 ),
               ),
@@ -104,7 +106,11 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                           controller: _nameController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
-                            enabledBorder:  OutlineInputBorder(
+                            labelStyle: const TextStyle(
+                            fontFamily: "Raleway",
+                            color: PaletaCores.bgPurpleAcc
+                            ),
+                            enabledBorder:  const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(16)),
                               borderSide: BorderSide(
                                 color: PaletaCores.bgPurpleAcc
@@ -129,6 +135,12 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                           controller: _nameController,
                           keyboardType: TextInputType.name,
                           decoration: const InputDecoration(
+                              labelStyle: TextStyle(
+                              fontFamily: "Raleway",
+                              color: PaletaCores.bgPurpleAcc,
+
+
+                              ),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(16)),
                                   borderSide: BorderSide(
@@ -153,6 +165,12 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                           controller: _nameController,
                           keyboardType: TextInputType.name,
                           decoration: const InputDecoration(
+                              labelStyle: TextStyle(
+                              fontFamily: "Raleway",
+                              color: PaletaCores.bgPurpleAcc,
+
+
+                              ),
                               enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(16)),
                                   borderSide: BorderSide(
@@ -174,10 +192,12 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                       ),
                       Padding(padding: EdgeInsets.all(8),
                         child: TextFormField(
+
                           obscureText: !textObscured,
                           controller: _senhaController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
+
                               suffixIcon: IconButton(
                                   onPressed: (){
                                     setState(() {
@@ -195,8 +215,10 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                                   )
 
                               ),
+
                               labelText: "Senha",
                               labelStyle: TextStyle(
+                                fontFamily: "Raleway",
                                 color: PaletaCores.bgPurpleAcc
                               ),
                               border: OutlineInputBorder(
