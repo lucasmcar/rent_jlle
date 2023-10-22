@@ -457,7 +457,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
                 referencia: referencia.toString(),
                 idUsuario: '1');
             createRent(imovel);
-            Navigator.pushNamed(context, "/list");
+            Navigator.pop(context);
           } else {
             setState(() {
               currentStep += 1;

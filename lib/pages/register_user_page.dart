@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:imovel_direto/custom/custom_button.dart';
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CriaUsuarioPage extends StatefulWidget {
   const CriaUsuarioPage({super.key});
@@ -11,14 +14,19 @@ class CriaUsuarioPage extends StatefulWidget {
 
 class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
+
   final _nameController = TextEditingController();
   final _senhaController = TextEditingController();
   final _userNameController = TextEditingController();
   final _userEmailController = TextEditingController();
   final _userFormKey = GlobalKey<FormState>();
+  final List<File?> _listaImagens = [];
+  String? img;
+  //we can upload image from camera or from gallery based on parameter
 
   FocusNode focusColorChange = new FocusNode();
   bool textObscured = false;
+  bool _userEdited = false;
 
   @override
   void initState() {
@@ -29,13 +37,14 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
   @override
   Widget build(BuildContext context) {
+    String  _containerName = _nameController.text;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
         backgroundColor: PaletaCores.bgPurpleAcc,
         leading: IconButton(
           onPressed: (){},
-          icon: Icon(Icons.arrow_back_outlined),
+          icon: const Icon(Icons.arrow_back_outlined),
         ),
       ),
       body: SingleChildScrollView(
@@ -53,12 +62,10 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                   ),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(40),
-                    bottomRight: Radius.circular(40)
-                  ),
 
+                  ),
                 ),
                 child: Column(
-
                   children: [
                     const Align(
                       alignment: Alignment.topLeft,
@@ -74,33 +81,59 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                     ),
 
                     CircleAvatar(
-                      radius: 70,
+                      backgroundImage: AssetImage(img!),
+                      backgroundColor: const Color.fromRGBO(255, 255, 255, .5),
+                      radius: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           IconButton(
+
                               onPressed: (){
+                                setState(() {
+                                  ImagePicker().pickImage(source: ImageSource.gallery ).then((file){
+                                    if(file == null) return;
+                                        img = file.path;
+
+                                  });
+                                });
+
                               },
                               icon: const Icon(Icons.add_a_photo_outlined, size: 32,)),
                           IconButton(
-                              onPressed: (){},
+                              onPressed: (){
+
+                              },
                               icon: const Icon(Icons.photo_album, size: 32,))
                         ],
                       ),
                     ),
+                    Padding(padding: const EdgeInsets.all(8),
+                    child: Align(
+
+                      alignment: Alignment.center,
+                      child: Text(_containerName ?? "", style: const TextStyle(
+                          fontFamily: "Raleway",
+                          fontSize: 20,
+                          color: PaletaCores.whiteDefault,
+                          fontWeight: FontWeight.bold
+                      ),),
+                    ))
 
 
                   ],
                 ),
               ),
               Container(
-                padding: EdgeInsets.all(8),
+
+                padding: const EdgeInsets.all(8),
                 child: Form(
                   key: _userFormKey,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Padding(padding: EdgeInsets.all(8),
+                      Padding(padding: const EdgeInsets.all(8),
                         child: TextFormField(
                           focusNode: focusColorChange,
                           controller: _nameController,
@@ -109,6 +142,10 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                             labelStyle: const TextStyle(
                             fontFamily: "Raleway",
                             color: PaletaCores.bgPurpleAcc
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: const BorderSide(color: PaletaCores.bgPurpleAcc),
+                              borderRadius: BorderRadius.circular(16)
                             ),
                             enabledBorder:  const OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(16)),
@@ -124,24 +161,31 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                                   color: focusColorChange.hasFocus ? PaletaCores.bgPurpleAcc : PaletaCores.bgPurple,
                                   style: BorderStyle.solid
                                 ),
-                                borderRadius: BorderRadius.all(Radius.circular(16))
+                                borderRadius: const BorderRadius.all(Radius.circular(16))
                               )
                           ),
-
+                          onChanged: (text) {
+                            _userEdited = true;
+                            setState(() {
+                              _containerName = text;
+                            });
+                          },
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(8),
+                      Padding(padding: const EdgeInsets.all(8),
                         child: TextFormField(
-                          controller: _nameController,
+                          controller: _userNameController,
                           keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                              labelStyle: TextStyle(
-                              fontFamily: "Raleway",
-                              color: PaletaCores.bgPurpleAcc,
-
-
+                          decoration: InputDecoration(
+                                labelStyle: const TextStyle(
+                                fontFamily: "Raleway",
+                                color: PaletaCores.bgPurpleAcc,
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
+                                  borderSide:   const BorderSide(color: PaletaCores.bgPurpleAcc,),
+                                  borderRadius: BorderRadius.circular(16)
+                              ),
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(16)),
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc
@@ -149,7 +193,7 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
                               ),
                               labelText: "Nome de usuário",
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc,
                                       style: BorderStyle.solid
@@ -160,18 +204,22 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(8),
+                      Padding(padding: const EdgeInsets.all(8),
                         child: TextFormField(
-                          controller: _nameController,
-                          keyboardType: TextInputType.name,
-                          decoration: const InputDecoration(
-                              labelStyle: TextStyle(
+                          controller: _userEmailController,
+                          keyboardType: TextInputType.emailAddress,
+                          decoration: InputDecoration(
+                              labelStyle: const TextStyle(
                               fontFamily: "Raleway",
                               color: PaletaCores.bgPurpleAcc,
-
-
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide:  const BorderSide(
+                                  color: PaletaCores.bgPurpleAcc
+                                ),
+                                borderRadius: BorderRadius.circular(16)
+                              ),
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(16)),
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc
@@ -179,7 +227,7 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
                               ),
                               labelText: "Email",
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc,
                                       style: BorderStyle.solid
@@ -190,7 +238,7 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(8),
+                      Padding(padding: const EdgeInsets.all(8),
                         child: TextFormField(
 
                           obscureText: !textObscured,
@@ -205,23 +253,26 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                                     });
                                   },
                                   icon: textObscured
-                                      ? Icon(Icons.visibility_outlined)
-                                      : Icon(Icons.visibility_off_outlined)
+                                      ? const Icon(Icons.visibility_outlined)
+                                      : const Icon(Icons.visibility_off_outlined)
                               ),
-                              enabledBorder: OutlineInputBorder(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: const BorderSide( color: PaletaCores.bgPurpleAcc),
+                                borderRadius: BorderRadius.circular(16)
+                              ),
+                              enabledBorder: const OutlineInputBorder(
                                   borderRadius: BorderRadius.all(Radius.circular(16)),
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc
                                   )
 
                               ),
-
                               labelText: "Senha",
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                 fontFamily: "Raleway",
                                 color: PaletaCores.bgPurpleAcc
                               ),
-                              border: OutlineInputBorder(
+                              border: const OutlineInputBorder(
                                   borderSide: BorderSide(
                                       color: PaletaCores.bgPurpleAcc,
                                       style: BorderStyle.solid
@@ -232,7 +283,10 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
                         ),
                       ),
-                      Padding(padding: EdgeInsets.all(8),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height*.12,
+                      ),
+                      Padding(padding: const EdgeInsets.all(8),
 
                         child: CustomButton(
                           buttonText: "Cadastrar",

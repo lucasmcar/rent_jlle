@@ -89,7 +89,7 @@ class _ListaAluguelState extends State<ListaAluguel> {
                     hintStyle:
                         TextStyle(fontFamily: "Raleway", color: Colors.white)),
               )
-            : Text(
+            : const Text(
                 "Imóveis",
                 style: TextStyle(fontFamily: "Raleway", letterSpacing: .5),
               ),
@@ -137,31 +137,45 @@ class _ListaAluguelState extends State<ListaAluguel> {
                   itemBuilder: (context, index) {
                     List<Imovel> listaImoveis = snapshot.data!;
                     Imovel imovel = listaImoveis[index];
-                    return ListTile(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/details',
-                            arguments: imovel);
-                      },
-                      style: ListTileStyle.drawer,
-                      contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
-                      title: Text(
-                        imovel.titulo!,
-                        style: const TextStyle(
-                            fontFamily: "Raleway", fontWeight: FontWeight.bold),
-                      ),
-                      subtitle: Text("R\$${imovel.preco}",
-                          style: const TextStyle(
+                    if(imovel == null){
+                      return const Center(
+                        child: Text(
+                          "Não há casas",
+                          style: TextStyle(
                               fontFamily: "Raleway",
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic)),
-                      trailing: IconButton(
-                        icon: const Icon(Icons.info_outline),
-                        onPressed: () {},
-                      ),
-                      shape: const Border(
-                          bottom: BorderSide(
-                              width: 0.5, color: PaletaCores.bgPurpleAcc)),
-                    );
+                              fontSize: 26,
+                              color: PaletaCores.bgPurpleAcc
+                          ),
+                        ),
+                      );
+                    } else {
+                      return ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/details',
+                              arguments: imovel);
+                        },
+                        style: ListTileStyle.drawer,
+                        contentPadding: const EdgeInsets.fromLTRB(8, 16, 8, 16),
+                        title: Text(
+                          imovel.titulo!,
+                          style: const TextStyle(
+                              fontFamily: "Raleway", fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text("R\$${imovel.preco}",
+                            style: const TextStyle(
+                                fontFamily: "Raleway",
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic)),
+                        trailing: IconButton(
+                          icon: const Icon(Icons.info_outline),
+                          onPressed: () {},
+                        ),
+                        shape: const Border(
+                            bottom: BorderSide(
+                                width: 0.5, color: PaletaCores.bgPurpleAcc)),
+                      );
+                    }
+
                   });
             }
             return Container();

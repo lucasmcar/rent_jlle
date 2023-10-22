@@ -4,7 +4,7 @@ class CustomButton extends StatelessWidget {
   final String buttonText;
   final Color colorText;
   final Color bgColor;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const CustomButton(
       {required this.buttonText,

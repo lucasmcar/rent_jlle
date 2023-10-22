@@ -8,9 +8,10 @@ import 'package:imovel_direto/routes/routes_generator.dart';
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: CriaUsuarioPage(),
+    home: ListaAluguel(),
     title: 'Casa Direta',
-    initialRoute: '/createUser',
+    initialRoute: '/list'
+        '',
     onGenerateRoute: RoutesGenerator.generateRoute,
   ));
 }
