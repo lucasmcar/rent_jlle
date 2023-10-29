@@ -66,33 +66,7 @@ class _RegistraCasaPageState extends State<RegistraCasaPage> {
   }
 
   Future<void> createRent(Imovel imovel) async {
-    String url = "http://192.168.100.123:4000";
-
-    try {
-      http.Response response = await http.post(
-        Uri.parse("$url/api/imovel/novo"),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode({
-          "titulo": imovel.titulo,
-          "tipoimovel": imovel.tipoImovel,
-          "nrcomodos": imovel.nrComodo,
-          "nrquarto": imovel.nrQuarto,
-          "nrbanheiro": imovel.nrBanheiro,
-          "dtcadastro": imovel.dtCadastro,
-          "idpermite_pet": imovel.permitePet,
-          "idpermite_crianca": imovel.permiteCrianca,
-          "espaco_garagem": imovel.espacoGaragem,
-          "preco": imovel.preco,
-          "descricao": imovel.descricao,
-          "referencia": imovel.referencia,
-          "idusuario": imovel.idUsuario
-        }),
-      );
-    } on HttpException catch (ex) {
-      throw Exception(ex.message.toString());
-    }
+    
   }
 
   @override

@@ -5,12 +5,9 @@ import 'package:imovel_direto/pages/user_profile_page.dart';
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 
 class DetailsPage extends StatefulWidget {
-
   Imovel? imovel;
 
   DetailsPage(this.imovel, {super.key});
-
-
 
   @override
   State<DetailsPage> createState() => _DetailsPageState();
@@ -36,6 +33,7 @@ class _DetailsPageState extends State<DetailsPage> {
     });
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,47 +44,38 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           backgroundColor: PaletaCores.bgPurple,
           actions: [
-            IconButton(onPressed: (){}, icon: Icon(Icons.info_outline)),
+            IconButton(onPressed: () {}, icon: Icon(Icons.info_outline)),
             PopupMenuButton(
                 onSelected: _handleClick,
-                itemBuilder: (context){
+                itemBuilder: (context) {
                   return {'Perfil', 'Proprietário'}.map((String choice) {
                     return PopupMenuItem<String>(
                       value: choice,
                       child: Text(choice),
                     );
                   }).toList();
-                }
-            ),
-
+                }),
           ],
-
         ),
         body: SingleChildScrollView(
-
             child: Container(
-              height: MediaQuery.of(context).size.height*1.2,
-              decoration:  const BoxDecoration(
-                color: PaletaCores.whiteDefault
-              ),
-            child: Column(
+          height: MediaQuery.of(context).size.height * 1.2,
+          decoration: const BoxDecoration(color: PaletaCores.whiteDefault),
+          child: Column(
             children: [
               SizedBox(
-
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height*1/3,
+                height: MediaQuery.of(context).size.height * 1 / 3,
                 child: PageView.builder(
                     itemCount: images.length,
                     pageSnapping: true,
-                      itemBuilder: (context, pagePosition) {
-                        return Image.network(images[pagePosition],fit: BoxFit.cover,);
-                      }
-                      ),
-
-
-                ),
-
-
+                    itemBuilder: (context, pagePosition) {
+                      return Image.network(
+                        images[pagePosition],
+                        fit: BoxFit.cover,
+                      );
+                    }),
+              ),
 
               /*SizedBox(
                 height: MediaQuery.of(context).size.height * 0.25,
@@ -117,7 +106,6 @@ class _DetailsPageState extends State<DetailsPage> {
                 height: 120,
                 width: double.infinity,
                 child: ListView(
-
                   scrollDirection: Axis.horizontal,
                   children: [
                     const SizedBox(height: 8),
@@ -251,52 +239,49 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height/5.25,
-                child: Padding(
-                  padding: EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
+                height: MediaQuery.of(context).size.height / 5.25,
+                child: const Padding(
+                  padding:
+                      EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
                   child: Card(
                     elevation: 5,
                     child: Column(
                       children: [
-
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(top: 8, left: 16, right: 16),
-                          child: Text("Endereço do imóvel",
+                          child: Text(
+                            "Endereço do imóvel",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontFamily: "Raleway",
                                 fontWeight: FontWeight.bold,
-                                fontSize: 18
-
-                            ),
+                                fontSize: 18),
                           ),
                         ),
                         const Divider(),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                             children: [
                               const Text("Rua:"),
-                              Text("Cidade de Oros", style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey
-                              )),
-                            ],),
+                              Text("Cidade de Oros",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey)),
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
                             children: [
-                            const Text("Bairro:"),
-                            Text("Itaum", style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.grey
-                            )),
-                          ],),
+                              const Text("Bairro:"),
+                              Text("Itaum",
+                                  style: TextStyle(
+                                      fontSize: 16, color: Colors.grey)),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -305,154 +290,177 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               Expanded(
                 child: Container(
-                      margin: EdgeInsets.only(top: 5),
-                      height: MediaQuery.of(context).size.height/2.525,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
+                  margin: EdgeInsets.only(top: 5),
+                  height: MediaQuery.of(context).size.height / 2.525,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
                           offset: Offset(0, 3), // changes position of shadow
                         ),
                       ],
-                        shape: BoxShape.rectangle,
-                          color: PaletaCores.whiteDefault,
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(16),
-                            topRight: Radius.circular(16),
-
-                        )
+                      shape: BoxShape.rectangle,
+                      color: PaletaCores.whiteDefault,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(16),
+                        topRight: Radius.circular(16),
+                      )),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8, left: 16, right: 16),
+                        child: Text(
+                          "Resumo",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontFamily: "Raleway",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18),
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 16, right: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(Icons.money_outlined,
+                                size: 26, color: PaletaCores.bgPurple),
+                            Text("R\$${widget.imovel?.preco}",
+                                style: const TextStyle(
+                                    fontFamily: "Raleway",
+                                    fontSize: 16,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey))
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.account_circle_outlined,
+                              size: 26,
+                              color: PaletaCores.bgPurple,
+                            ),
+                            Text(/*"R\$${widget.imovel?.preco}*/ "Alex Junior",
+                                style: TextStyle(
+                                    fontFamily: "Raleway",
+                                    fontSize: 16,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey))
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, right: 16, left: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            (widget.imovel?.tipoImovel == "K")
+                                ? const Icon(
+                                    Icons.house_outlined,
+                                    size: 24,
+                                    color: PaletaCores.bgPurple,
+                                  )
+                                : (widget.imovel?.tipoImovel == "A")
+                                    ? const Icon(
+                                        Icons.apartment_outlined,
+                                        size: 24,
+                                        color: PaletaCores.bgPurple,
+                                      )
+                                    : const Icon(
+                                        Icons.house_siding_outlined,
+                                        size: 24,
+                                        color: PaletaCores.bgPurple,
+                                      ),
+                            (widget.imovel?.tipoImovel == "K")
+                                ? const Text("Kitnet",
+                                    style: TextStyle(
+                                        fontFamily: "Raleway",
+                                        fontSize: 14,
+                                        fontStyle: FontStyle.italic,
+                                        color: Colors.grey))
+                                : widget.imovel?.tipoImovel == "C"
+                                    ? const Text("Casa",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.grey))
+                                    : const Text("Apartamento",
+                                        style: TextStyle(
+                                            fontFamily: "Raleway",
+                                            fontSize: 14,
+                                            fontStyle: FontStyle.italic,
+                                            color: Colors.grey))
+                          ],
+                        ),
+                      ),
+                      const Padding(
+                        padding: const EdgeInsets.only(
+                            top: 8.0, left: 16, right: 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Icon(
+                              Icons.phone_outlined,
+                              size: 26,
+                              color: PaletaCores.bgPurple,
+                            ),
+                            Text("51996699337" /*R\$${widget.imovel?.preco}*/,
+                                style: TextStyle(
+                                    fontFamily: "Raleway",
+                                    fontSize: 14,
+                                    fontStyle: FontStyle.italic,
+                                    color: Colors.grey))
+                          ],
+                        ),
+                      ),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8, left: 16, right: 16),
-                            child: Text("Resumo",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontFamily: "Raleway",
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18
-
-                              ),
-                            ),
-                          ),
-                          const Divider(),
                           Padding(
-                            padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Icon(Icons.money_outlined, size: 26, color: PaletaCores.bgPurple),
-                                Text("R\$${widget.imovel?.preco}",
-                                    style: const TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontSize: 16,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                              ],
-                            ),
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, right: 16, left: 16),
+                            child: CustomButton(
+                                buttonText: "Alugar",
+                                bgColor: PaletaCores.bgPurple,
+                                colorText: PaletaCores.whiteDefault,
+                                onPressed: () {}),
                           ),
-                          const Padding(
-                            padding: EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(Icons.account_circle_outlined, size: 26, color: PaletaCores.bgPurple,),
-                                Text(/*"R\$${widget.imovel?.preco}*/ "Alex Junior",
-                                    style: TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontSize: 16,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                              ],
-                            ),
-                          ),
-
                           Padding(
-                            padding: const EdgeInsets.only(top: 8.0, right: 16, left: 16),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                (widget.imovel?.tipoImovel == "K")
-
-                                    ? const Icon(Icons.house_outlined, size: 24, color: PaletaCores.bgPurple,)
-                                    : widget.imovel?.tipoImovel == "A"
-                                      ? const Icon(Icons.apartment_outlined, size: 24, color: PaletaCores.bgPurple,) :
-                                         const Icon(Icons.house_siding_outlined, size: 24, color: PaletaCores.bgPurple,),
-                                (widget.imovel?.tipoImovel == "K")
-                                    ? const Text("Kitnet",
-                                    style: TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                                    : widget.imovel?.tipoImovel == "C"
-                                    ? const Text("Casa",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                                    : const Text("Apartamento",
-                                    style: TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                              ],
+                            padding: EdgeInsets.only(
+                                top: 8, bottom: 8, right: 16, left: 16),
+                            child: CustomButton(
+                              buttonText: "Visita",
+                              bgColor: agendado
+                                  ? Colors.white38
+                                  : PaletaCores.bgPurpleAcc,
+                              colorText: agendado
+                                  ? Colors.black45
+                                  : PaletaCores.whiteDefault,
+                              onPressed: !agendado ? null : () {},
                             ),
-                          ),
-                          const Padding(
-                            padding: const EdgeInsets.only(top: 8.0, left: 16, right: 16),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(Icons.phone_outlined, size: 26, color: PaletaCores.bgPurple,),
-                                Text("51996699337" /*R\$${widget.imovel?.preco}*/,
-                                    style: TextStyle(
-                                        fontFamily: "Raleway",
-                                        fontSize: 14,
-                                        fontStyle: FontStyle.italic,
-                                        color: Colors.grey))
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
-                                child: CustomButton(
-                                  buttonText: "Alugar",
-                                  bgColor: PaletaCores.bgPurple,
-                                  colorText: PaletaCores.whiteDefault,
-                                  onPressed: (){}
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.only(top: 8, bottom: 8, right: 16, left: 16),
-                                child: CustomButton(
-                                  buttonText: "Visita",
-                                  bgColor: agendado ?  Colors.white38 : PaletaCores.bgPurpleAcc ,
-                                  colorText: agendado ?  Colors.black45 : PaletaCores.whiteDefault,
-                                  onPressed: !agendado ? null : (){} ,
-                                ),
-                              )
-                            ],
                           )
                         ],
-                      ),
+                      )
+                    ],
+                  ),
                 ),
               ),
-
             ],
           ),
         )));
@@ -461,8 +469,8 @@ class _DetailsPageState extends State<DetailsPage> {
   void _handleClick(String value) {
     switch (value) {
       case 'Perfil':
-        Navigator.push(context, MaterialPageRoute(builder: (BuildContext c) => ProfileUserPage()))
-        ;
+        Navigator.push(context,
+            MaterialPageRoute(builder: (BuildContext c) => ProfileUserPage()));
         break;
       case 'Proprietario':
         break;

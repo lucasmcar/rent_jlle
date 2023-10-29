@@ -44,6 +44,8 @@ dependencies:
   permission_handler: ^11.0.1
   drawing_animation: ^1.0.1
   mailer: ^6.0.1
+  web_socket_channel: ^2.4.0
+  socket_io_client: ^2.0.3+1
 
 
   # The following adds the Cupertino Icons font to your application.

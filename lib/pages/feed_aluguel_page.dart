@@ -3,17 +3,15 @@ import 'package:imovel_direto/controller/casa_controller.dart';
 import 'package:imovel_direto/models/imovel.dart';
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 
-
-class ListaAluguel extends StatefulWidget {
-  const ListaAluguel({super.key});
+class FeedAluguelPage extends StatefulWidget {
+  const FeedAluguelPage({super.key});
 
   @override
-  State<ListaAluguel> createState() => _ListaAluguelState();
+  State<FeedAluguelPage> createState() => _FeedAluguelPageState();
 }
 
-class _ListaAluguelState extends State<ListaAluguel> {
+class _FeedAluguelPageState extends State<FeedAluguelPage> {
   CasaController _casaController = CasaController();
-
 
   @override
   void initState() {
