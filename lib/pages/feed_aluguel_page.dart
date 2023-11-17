@@ -11,7 +11,7 @@ class FeedAluguelPage extends StatefulWidget {
 }
 
 class _FeedAluguelPageState extends State<FeedAluguelPage> {
-  CasaController _casaController = CasaController();
+  final CasaController _casaController = CasaController();
 
   @override
   void initState() {

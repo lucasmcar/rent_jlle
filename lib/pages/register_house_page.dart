@@ -1,20 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 import 'package:image_picker/image_picker.dart';
 import 'package:imovel_direto/custom/custom_title_text_form_field.dart';
-import 'package:imovel_direto/pages/lista_aluguel.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:permission_handler/permission_handler.dart';
 
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 
 import '../controller/endereco_controller.dart';
 import '../custom/custom_int_input_form.dart';
-import '../models/Usuario.dart';
-import '../models/endereco.dart';
 import '../models/imovel.dart';
 
 class RegistraCasaPage extends StatefulWidget {

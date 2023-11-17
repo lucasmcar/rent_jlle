@@ -17,12 +17,12 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           children: [
             Container(
-              child: Text("Teste")
+              child: const Text("Teste")
             ),
 
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(top: 5),
+                margin: const EdgeInsets.only(top: 5),
                 height: MediaQuery.of(context).size.height/2.525,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
                 shape: BoxShape.rectangle,
@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
                   topRight: Radius.circular(16),
                 )
               ),
-              child: Column(
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

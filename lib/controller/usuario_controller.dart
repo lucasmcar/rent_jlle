@@ -1,8 +1,5 @@
 import 'package:imovel_direto/repositories/usuario_repository.dart';
 import 'package:mobx/mobx.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:io';
 import '../models/usuario.dart';
 part 'usuario_controller.g.dart';
 

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:imovel_direto/models/feed_aluguel.dart';
 import 'package:imovel_direto/models/imovel.dart';
 import 'package:imovel_direto/pages/details_page.dart';
 import 'package:imovel_direto/pages/feed_aluguel_page.dart';
-import 'package:imovel_direto/pages/lista_aluguel.dart';
+import 'package:imovel_direto/pages/map_page.dart';
 import 'package:imovel_direto/pages/register_house_page.dart';
 import 'package:imovel_direto/pages/register_user_page.dart';
 import 'package:imovel_direto/pages/user_profile_page.dart';
@@ -15,6 +14,8 @@ class RoutesGenerator {
     final args = settings.arguments;
 
     switch (settings.name) {
+      case '/map':
+         return MaterialPageRoute(builder: (context) => const MapPage());
       case '/login':
         return MaterialPageRoute(builder: (context) => const LoginPage());
       case '/message':

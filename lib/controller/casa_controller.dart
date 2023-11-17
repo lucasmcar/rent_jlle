@@ -45,7 +45,7 @@ abstract class CasaControllerBase with Store {
 
       return imovel;
       // ignore: empty_catches
-    } on HttpException catch (ex) {}
+    } on HttpException {}
     throw Exception("No data");
   }
 }

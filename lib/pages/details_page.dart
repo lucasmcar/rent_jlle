@@ -14,7 +14,7 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
-  PageController _pageController = PageController();
+  final PageController _pageController = PageController();
   int _currentPage = 0;
   bool agendado = true;
 
@@ -44,7 +44,7 @@ class _DetailsPageState extends State<DetailsPage> {
           ),
           backgroundColor: PaletaCores.bgPurple,
           actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.info_outline)),
+            IconButton(onPressed: () {}, icon: const Icon(Icons.info_outline)),
             PopupMenuButton(
                 onSelected: _handleClick,
                 itemBuilder: (context) {
@@ -237,7 +237,7 @@ class _DetailsPageState extends State<DetailsPage> {
                   ],
                 ),
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height / 5.25,
                 child: const Padding(
@@ -258,13 +258,13 @@ class _DetailsPageState extends State<DetailsPage> {
                                 fontSize: 18),
                           ),
                         ),
-                        const Divider(),
+                        Divider(),
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Rua:"),
+                              Text("Rua:"),
                               Text("Cidade de Oros",
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.grey)),
@@ -272,11 +272,11 @@ class _DetailsPageState extends State<DetailsPage> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: EdgeInsets.all(8.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              const Text("Bairro:"),
+                              Text("Bairro:"),
                               Text("Itaum",
                                   style: TextStyle(
                                       fontSize: 16, color: Colors.grey)),
@@ -290,7 +290,7 @@ class _DetailsPageState extends State<DetailsPage> {
               ),
               Expanded(
                 child: Container(
-                  margin: EdgeInsets.only(top: 5),
+                  margin: const EdgeInsets.only(top: 5),
                   height: MediaQuery.of(context).size.height / 2.525,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -299,7 +299,7 @@ class _DetailsPageState extends State<DetailsPage> {
                           color: Colors.grey.withOpacity(0.5),
                           spreadRadius: 5,
                           blurRadius: 7,
-                          offset: Offset(0, 3), // changes position of shadow
+                          offset: const Offset(0, 3), // changes position of shadow
                         ),
                       ],
                       shape: BoxShape.rectangle,
@@ -409,7 +409,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         ),
                       ),
                       const Padding(
-                        padding: const EdgeInsets.only(
+                        padding: EdgeInsets.only(
                             top: 8.0, left: 16, right: 16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -433,7 +433,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 8, bottom: 8, right: 16, left: 16),
                             child: CustomButton(
                                 buttonText: "Alugar",
@@ -442,7 +442,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                 onPressed: () {}),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
+                            padding: const EdgeInsets.only(
                                 top: 8, bottom: 8, right: 16, left: 16),
                             child: CustomButton(
                               buttonText: "Visita",
@@ -470,7 +470,7 @@ class _DetailsPageState extends State<DetailsPage> {
     switch (value) {
       case 'Perfil':
         Navigator.push(context,
-            MaterialPageRoute(builder: (BuildContext c) => ProfileUserPage()));
+            MaterialPageRoute(builder: (BuildContext c) => const ProfileUserPage()));
         break;
       case 'Proprietario':
         break;

@@ -12,7 +12,7 @@ class ListaAluguel extends StatefulWidget {
 }
 
 class _ListaAluguelState extends State<ListaAluguel> {
-  CasaController _casaController = CasaController();
+  final CasaController _casaController = CasaController();
 
 
   @override

@@ -38,7 +38,7 @@ class UsuarioRepository {
 
       return isValidUser;
       // ignore: empty_catches
-    } on HttpException catch (ex) {}
+    } on HttpException {}
     throw Exception("No data");
   }
 

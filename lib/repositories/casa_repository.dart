@@ -37,7 +37,7 @@ class CasaRepository {
       if (response.statusCode == 200) {
         return imoveis;
       }
-    } on HttpException catch (ex) {}
+    } on HttpException {}
     throw Exception("Erro");
   }
 

@@ -34,10 +34,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                   ],
                 ),
               ),
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 height: MediaQuery.of(context).size.height*0.60,
-                child: Center(
+                child: const Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -48,23 +48,23 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                         ),
                         radius: 60,
                       ),
-                      const SizedBox(height: 4,),
+                      SizedBox(height: 4,),
                       Text(
                         "Fulana de tal",
-                         style: const TextStyle(
+                         style: TextStyle(
                             fontFamily: "Raleway",
                             color: PaletaCores.whiteDefault,
                             fontSize: 24,
                             fontWeight: FontWeight.bold),
                       ),
-                      const SizedBox(height: 16,),
+                      SizedBox(height: 16,),
                       Card(
                         margin: EdgeInsetsDirectional.symmetric(horizontal: 20.0 , vertical: 2.0),
                         elevation: 5,
                         color: PaletaCores.whiteDefault,
                         clipBehavior: Clip.antiAlias,
                         child: Padding(
-                          padding: const EdgeInsets.all(16.0),
+                          padding: EdgeInsets.all(16.0),
                           child: Row(
                             children: [
                               Expanded(
@@ -111,12 +111,12 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                                     children: [
                                       Text(
                                           "Entrada",
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontFamily: "Raleway",
                                               fontWeight: FontWeight.bold,
                                               fontSize: 16
                                           )),
-                                      const SizedBox(height: 8.0),
+                                      SizedBox(height: 8.0),
                                       Text("26/10/2023"),
                                     ],
                                   )
@@ -144,7 +144,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 5,
                     blurRadius: 7,
-                    offset: Offset(0, 3), // changes position of shadow
+                    offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
                 shape: BoxShape.rectangle,
@@ -155,10 +155,10 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
 
                 )
             ),
-            child: Column(
+            child: const Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -168,7 +168,7 @@ class _ProfileUserPageState extends State<ProfileUserPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

@@ -1,5 +1,4 @@
 import 'package:imovel_direto/models/imovel.dart';
-import 'package:imovel_direto/models/agenda_visita.dart';
 import 'package:intl/intl.dart';
 
 import 'Usuario.dart';

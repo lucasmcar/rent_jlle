@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:imovel_direto/controller/usuario_controller.dart';
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 
 class CriaUsuarioPage extends StatefulWidget {
@@ -25,7 +24,7 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
   ReactionDisposer? reactionDisposer;
 
-  FocusNode focusColorChange = new FocusNode();
+  FocusNode focusColorChange = FocusNode();
 
   bool validUser = false;
 
@@ -51,12 +50,12 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
 
   //Esconde ou mostra o texto da senha
   bool textObscured = false;
-  bool _userEdited = false;
+  final bool _userEdited = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,17 +74,17 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(radius: 50, child: Text("U")),
+                  const CircleAvatar(radius: 50, child: Text("U")),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                          onPressed: () {}, child: Icon(Icons.camera)),
+                          onPressed: () {}, child: const Icon(Icons.camera)),
                       const SizedBox(
                         width: 16,
                       ),
                       ElevatedButton(
-                          onPressed: () {}, child: Icon(Icons.browse_gallery))
+                          onPressed: () {}, child: const Icon(Icons.browse_gallery))
                     ],
                   )
                 ],
@@ -129,10 +128,10 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                                       Radius.circular(16)))),
                         ),
                       ),
-                      SizedBox(height: 8.0),
+                      const SizedBox(height: 8.0),
                       //Input username
                       Padding(
-                        padding: EdgeInsets.only(right: 16, left: 16, top: 4),
+                        padding: const EdgeInsets.only(right: 16, left: 16, top: 4),
                         child: Observer(builder: (_) {
                           return TextFormField(
                             onChanged: (valor) {
@@ -162,7 +161,7 @@ class _CriaUsuarioPageState extends State<CriaUsuarioPage> {
                                         height: 12,
                                         width: 12,
                                         alignment: Alignment.center,
-                                        child: CircularProgressIndicator(
+                                        child: const CircularProgressIndicator(
                                           strokeWidth: 2,
                                         ))
                                     : (validUser)
