@@ -49,6 +49,7 @@ dependencies:
   google_maps_flutter: ^2.5.0
   geolocator: ^10.1.0
   geocoding: ^2.1.1
+  flow_builder: ^0.0.9
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -87,6 +88,7 @@ flutter:
   assets:
     - assets/images/
     - assets/fonts/
+    - lib/consts/labels/house/house.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

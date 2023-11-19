@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:imovel_direto/repositories/casa_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +15,20 @@ abstract class CasaControllerBase with Store {
   @observable
   bool loading = false;
 
+  @observable
+  int countDataFilled = 0;
+
+  @observable
+  int countTotalFields = 0;
+
   ObservableList<Imovel> imoveis = ObservableList();
+
+  CasaController() {
+    autorun((_) {
+      setTotalFilledFields();
+      print(countDataFilled);
+    });
+  }
 
   @action
   Future<void> createRent(Imovel imovel) {
@@ -47,5 +61,33 @@ abstract class CasaControllerBase with Store {
       // ignore: empty_catches
     } on HttpException {}
     throw Exception("No data");
+  }
+
+  @action
+  void setTotalFields() {
+    countTotalFields++;
+  }
+
+  @action
+  void setTotalFieldsDecrement({String valor = ""}) {
+    if (countTotalFields < 0) {
+      countTotalFields = 0;
+    } else {
+      countTotalFields--;
+    }
+  }
+
+  @action
+  void setTotalFilledFields() {
+    countDataFilled++;
+  }
+
+  @action
+  void setDecrementTotalFilledFields({String valor = ""}) {
+    if (countDataFilled < 0) {
+      countDataFilled = 0;
+    } else {
+      countDataFilled--;
+    }
   }
 }

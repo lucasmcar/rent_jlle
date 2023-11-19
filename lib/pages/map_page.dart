@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:imovel_direto/controller/location_controller.dart';
 import 'package:imovel_direto/utils/colors/paleta_cores.dart';
-import 'package:permission_handler/permission_handler.dart' as ph;
 import 'package:geolocator/geolocator.dart';
 
 class MapPage extends StatefulWidget {
@@ -28,9 +27,7 @@ class _MapPageState extends State<MapPage> {
 
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 15), () {
-      listenPosition();
-    });
+    listenPosition();
     super.initState();
   }
 
@@ -55,7 +52,6 @@ class _MapPageState extends State<MapPage> {
           localController.getAddressSub(positionLocation!);
         });
       }
-
     }
   }
 

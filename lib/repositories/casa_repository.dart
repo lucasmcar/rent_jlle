@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:imovel_direto/models/imovel.dart';
+import 'package:imovel_direto/utils/uri_util.dart';
 
 class CasaRepository {
   Future<List<Imovel>> getAll() async {
-    String url = "http://192.168.100.123:4000";
+    UriUtil? uri;
 
     http.Response response;
 
     try {
-      response = await http.get(Uri.parse("$url/api/imoveis"));
+      response = await http.get(uri!.getUri("api", "imoveis") as Uri);
       var dadosJson = jsonDecode(response.body);
 
       List<Imovel> imoveis = [];
@@ -42,11 +43,10 @@ class CasaRepository {
   }
 
   Future<void> createRent(Imovel imovel) async {
-    String url = "http://192.168.100.123:4000";
+    UriUtil? uri;
 
     try {
-      http.Response response = await http.post(
-        Uri.parse("$url/api/imovel/novo"),
+      http.Response response = await http.post(uri!.getUri("api", "imovel/novo") as Uri,
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
         },

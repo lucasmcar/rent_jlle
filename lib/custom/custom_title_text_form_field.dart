@@ -4,13 +4,18 @@ import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 class CustomTitleTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final Function(String?)? validator;
+  final Function(String?)? onChanged;
 
   const CustomTitleTextFormField(
-      {required this.controller, this.validator, super.key});
+      {required this.controller,
+      required this.onChanged,
+      this.validator,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        onChanged: onChanged,
         controller: controller,
         keyboardType: TextInputType.text,
         decoration: const InputDecoration(

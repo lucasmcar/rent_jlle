@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:intl/intl.dart';
 
 class Imovel {
@@ -32,6 +34,14 @@ class Imovel {
     this.referencia,
     this.idUsuario,
   });
+
+  void setRefHash() {
+    referencia = Random().nextInt(999999).toString();
+  }
+
+  String getRefHash() {
+    return referencia!;
+  }
 
   factory Imovel.fromJson(Map<String, dynamic> json) {
     return Imovel(

@@ -4,13 +4,20 @@ import 'package:imovel_direto/utils/colors/paleta_cores.dart';
 class CustomIntInputForm extends StatelessWidget {
   final String nome;
   final TextEditingController controller;
+  final Function(String?) onChanged;
+ 
 
   const CustomIntInputForm(
-      {required this.nome, required this.controller, super.key});
+      {required this.nome,
+      required this.controller,
+      required this.onChanged,
+
+      super.key});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+        onChanged: onChanged,
         controller: controller,
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
